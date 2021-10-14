@@ -53,6 +53,9 @@ fun challengeThree(){
     } else if(answer == "3") {
         println("Seriously?! Who thought that was a good idea?!")
         gameOver()
+    } else {
+        println("Now now, stop talking gibberish!")
+        challengeThree()
     }
 }
 
