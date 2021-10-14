@@ -75,7 +75,37 @@ fun challengeFour(){
             println("Now, you know Moriarty: he would aim higher!")
         }
     }
-    win()
+    endBoss()
+}
+
+fun endBoss(){
+    println("Blimey, there he is! And he challenges us to one of his riddles.")
+    println("If you can solve Moriarty's riddle, he will turn himself in.")
+    println("Can you guess from which word the following is an anagram?")
+
+    val possibleAnswers = mapOf("moon starer" to "astronomer","dirty room" to "dormitory", "the classroom" to "schoolmaster")
+    var tries = 3
+
+    while(tries > 0){
+        val randomPicked = possibleAnswers.keys.random()
+        println(randomPicked)
+        val answer = readLine()
+
+        if(answer == possibleAnswers.get(randomPicked)){
+            break
+        } else {
+            tries--
+            println("Hmm, try again. You still have $tries tries!")
+        }
+    }
+
+    if(tries>0){
+        win()
+    } else {
+        gameOver()
+    }
+
+
 }
 
 fun rollDice():Int{
