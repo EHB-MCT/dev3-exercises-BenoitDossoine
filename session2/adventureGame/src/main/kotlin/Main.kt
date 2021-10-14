@@ -26,7 +26,6 @@ fun challengeTwo(){
     println("Low or High?")
     
     val diceRoll = rollDice()
-    println(diceRoll)
     val answer = readLine()
 
     if((diceRoll<4 && answer=="Low") || (diceRoll>3 && answer == "High")){
@@ -61,7 +60,6 @@ fun challengeThree(){
 
 fun challengeFour(){
     val randomNumber:Int = (1..100).random()
-    println(randomNumber)
     println("Here it is, the entrance to Moriarty's lair! But it is locked with a code...")
     println("I'm pretty sure the code is Moriarty's favorite number!")
     println("Maybe you can guess it? I think it is between 1 and 100.")
@@ -75,6 +73,7 @@ fun challengeFour(){
             println("Now, you know Moriarty: he would aim higher!")
         }
     }
+
     endBoss()
 }
 
@@ -92,20 +91,15 @@ fun endBoss(){
         val answer = readLine()
 
         if(answer == possibleAnswers.get(randomPicked)){
-            break
+            win()
+            return
         } else {
             tries--
             println("Hmm, try again. You still have $tries tries!")
         }
     }
 
-    if(tries>0){
-        win()
-    } else {
-        gameOver()
-    }
-
-
+    gameOver()
 }
 
 fun rollDice():Int{
