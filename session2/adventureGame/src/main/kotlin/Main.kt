@@ -49,7 +49,7 @@ fun challengeThree(){
     } else if(answer == "2") {
         println("Even loyalty to Moriarty has its limits. We now have the location of Moriarty's layer!")
         println("Let's go!")
-        win()
+        challengeFour()
     } else if(answer == "3") {
         println("Seriously?! Who thought that was a good idea?!")
         gameOver()
@@ -57,6 +57,25 @@ fun challengeThree(){
         println("Now now, stop talking gibberish!")
         challengeThree()
     }
+}
+
+fun challengeFour(){
+    val randomNumber:Int = (1..100).random()
+    println(randomNumber)
+    println("Here it is, the entrance to Moriarty's lair! But it is locked with a code...")
+    println("I'm pretty sure the code is Moriarty's favorite number!")
+    println("Maybe you can guess it? I think it is between 1 and 100.")
+    var answer = 0
+
+    while(answer != randomNumber){
+        answer = readLine()!!.toInt()
+        if(answer> randomNumber){
+            println("Hmmm, I think Moriarty's favorite number would be lower...")
+        } else if (answer < randomNumber){
+            println("Now, you know Moriarty: he would aim higher!")
+        }
+    }
+    win()
 }
 
 fun rollDice():Int{
