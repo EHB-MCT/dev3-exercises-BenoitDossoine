@@ -1,5 +1,5 @@
 fun main(){
-    val people = arrayOf(Person("Benoît"),Person("Finn"))
+    val people = arrayOf(Student("Benoît"),Student("Finn"))
     val randomPerson = people.random()
-    randomPerson.introduce()
+    randomPerson.gossip()
 }
