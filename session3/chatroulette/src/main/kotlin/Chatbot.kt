@@ -1,9 +1,9 @@
-class Chatbot() {
-    fun introduce(){
+class Chatbot():ChatPartner {
+    override fun introduce(){
         println("Hi, I'm the chatbot!")
     }
 
-    fun talk(){
+    override fun talk(){
         println("Nothing useful")
     }
 }
