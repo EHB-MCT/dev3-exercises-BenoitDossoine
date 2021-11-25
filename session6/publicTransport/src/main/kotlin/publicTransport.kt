@@ -26,7 +26,9 @@ fun main(){
     statement.setString(1, destination)
     val result = statement.executeQuery()
 
+    var counter = 1
     while(result.next()){
-        println(result.getTime("departure_time"))
+        println("Train " + counter + " departs at " + result.getTime("departure_time"))
+        counter++
     }
 }
