@@ -1,61 +1,82 @@
-class Duolingo(var listOfWords: MutableSet<Word> = mutableSetOf()) {
-    init{
+import kotlin.math.round
+import java.util.Timer
+import kotlin.concurrent.schedule
+
+class Duolingo{
+    var roundSize:Int = 5
+    var listOfWords:MutableSet<Word> = mutableSetOf()
+    var language:String = "english"
+    var difficulty:String = "easy"
+
+    constructor(roundSize:Int = 5, language:String = "english"){
+        this.roundSize = roundSize
+        this.language = language
+        initialize()
+    }
+
+    constructor(difficulty:String){
+        this.difficulty = difficulty
+        if(difficulty == "easy") {
+            this.roundSize = 3
+            this.language = "french"
+        } else {
+            this.roundSize = 6
+        }
+        initialize()
+    }
+    fun initialize(){
         listOfWords = mutableSetOf(
-            Word("cow", "koe", "english"),
-            Word("horse","paard", "english"),
-            Word("pig", "varken", "english"),
-            Word("chicken", "kip", "english"),
-            Word("rabbit", "konijn", "english"),
-            Word("dog", "hond", "english"),
-            Word("cat", "kat", "english"),
-            Word("bee", "bij", "english"),
-            Word("wasp", "wesp", "english"),
-            Word("bull", "stier", "english"),
-            Word("vache", "koe", "french"),
-            Word("cheval","paard", "french"),
-            Word("cochon", "varken", "french"),
-            Word("poule", "kip", "french"),
-            Word("lapin", "konijn", "french"),
-            Word("chien", "hond", "french"),
-            Word("chat", "kat", "french"),
-            Word("abeille", "bij", "french"),
-            Word("guèpe", "wesp", "french"),
-            Word("taureau", "stier", "french"),
+            EnglishWord("cow", "koe"),
+            EnglishWord("horse","paard"),
+            EnglishWord("pig", "varken"),
+            EnglishWord("chicken", "kip"),
+            EnglishWord("rabbit", "konijn"),
+            EnglishWord("dog", "hond"),
+            EnglishWord("cat", "kat"),
+            EnglishWord("bee", "bij"),
+            EnglishWord("wasp", "wesp"),
+            EnglishWord("bull", "stier"),
+            FrenchWord("vache", "koe"),
+            FrenchWord("cheval","paard"),
+            FrenchWord("cochon", "varken"),
+            FrenchWord("poule", "kip"),
+            FrenchWord("lapin", "konijn"),
+            FrenchWord("chien", "hond"),
+            FrenchWord("chat", "kat"),
+            FrenchWord("abeille", "bij"),
+            FrenchWord("guèpe", "wesp"),
+            FrenchWord("taureau", "stier"),
         )
+        if(this.difficulty == "easy"){
+            listOfWords = listOfWords.filter{it.language == language}.toMutableSet()
+        }
     }
 
     fun play(){
         println("Welcome to Duolingo, the no-UX edition!")
         println("Translate the following words:")
 
-        val selectedWords = selectWords(listOfWords)
+        val selectedWords = selectWords(listOfWords, roundSize)
         translateWords(selectedWords)
 
     }
 
-    fun selectWords(listOfWords: MutableSet<Word>):MutableSet<Word>{
-        var counter = 1
-        val selectedWords = mutableSetOf<Word>()
-        while(counter < 6){
-            val selectedWord = listOfWords.random()
-            selectedWords.add(selectedWord)
-            listOfWords.removeIf{it == selectedWord}
-            counter++
-        }
-        return selectedWords
+    private fun selectWords(listOfWords: MutableSet<Word>, roundSize: Int):MutableSet<Word>{
+        return listOfWords.shuffled().take(roundSize).toMutableSet()
     }
 
-    fun translateWords(selectedWords:MutableSet<Word>){
+    private fun translateWords(selectedWords:MutableSet<Word>){
         val mistakes = mutableSetOf<Word>()
         var madeMistake = false
         var counter = 1
         selectedWords.forEach{
+            println("This is word $counter of the ${selectedWords.count()}.")
             println("The words is: ${it.original}")
             println("What is the traduction?")
             val answer = readLine()
+            Thread.sleep(100)
             if(answer == it.translated){
-                println("Perfect! Well done!")
-
+                    println("Perfect! Well done!")
             } else {
                 println("Oh no, that's not correct.")
                 println("The correct answer was ${it.translated}")
@@ -63,6 +84,8 @@ class Duolingo(var listOfWords: MutableSet<Word> = mutableSetOf()) {
                 mistakes.add(it)
                 madeMistake = true
             }
+            counter++
+            Thread.sleep(400)
         }
 
         if(madeMistake) {
