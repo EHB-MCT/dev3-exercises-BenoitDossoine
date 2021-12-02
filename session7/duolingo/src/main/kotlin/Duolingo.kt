@@ -1,4 +1,4 @@
-class Duolingo(var listOfWords: MutableSet<Word>) {
+class Duolingo(var listOfWords: MutableSet<Word> = mutableSetOf()) {
     init{
         listOfWords = mutableSetOf(
             Word("cow", "koe", "english"),
@@ -27,5 +27,47 @@ class Duolingo(var listOfWords: MutableSet<Word>) {
     fun play(){
         println("Welcome to Duolingo, the no-UX edition!")
         println("Translate the following words:")
+
+        val selectedWords = selectWords(listOfWords)
+        translateWords(selectedWords)
+
+    }
+
+    fun selectWords(listOfWords: MutableSet<Word>):MutableSet<Word>{
+        var counter = 1
+        val selectedWords = mutableSetOf<Word>()
+        while(counter < 6){
+            val selectedWord = listOfWords.random()
+            selectedWords.add(selectedWord)
+            listOfWords.removeIf{it == selectedWord}
+            counter++
+        }
+        return selectedWords
+    }
+
+    fun translateWords(selectedWords:MutableSet<Word>){
+        val mistakes = mutableSetOf<Word>()
+        var madeMistake = false
+        var counter = 1
+        selectedWords.forEach{
+            println("The words is: ${it.original}")
+            println("What is the traduction?")
+            val answer = readLine()
+            if(answer == it.translated){
+                println("Perfect! Well done!")
+
+            } else {
+                println("Oh no, that's not correct.")
+                println("The correct answer was ${it.translated}")
+                println("Let's try that one again later!")
+                mistakes.add(it)
+                madeMistake = true
+            }
+        }
+
+        if(madeMistake) {
+            println("Let retry the difficult ones!")
+            translateWords(mistakes)
+        }
     }
 }
