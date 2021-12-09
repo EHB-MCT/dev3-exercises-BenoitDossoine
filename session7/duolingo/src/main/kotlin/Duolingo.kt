@@ -77,6 +77,8 @@ class Duolingo{
             Thread.sleep(100)
             if(answer == it.translated){
                     println("Perfect! Well done!")
+            } else if(answer == "Hint") {
+                    println(it.translated.first())
             } else {
                 println("Oh no, that's not correct.")
                 println("The correct answer was ${it.translated}")
